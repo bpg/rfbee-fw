@@ -49,11 +49,14 @@ int showFirmwareVersion();
 int showHardwareVersion();
 int resetConfig();
 int setSleepMode();
+int setUartBaudRate();
+void writeSerialData();
 
 
-byte serialData[BUFFLEN+1]; // 1 extra so we can easily add a /0 when doing a debug print ;-)
-byte serialMode;
-volatile int sleepCounter;
+extern byte serialData[BUFFLEN+1]; // 1 extra so we can easily add a /0 when doing a debug print ;-)
+extern byte serialMode;
+extern byte errNo;
+extern long baudRateTable[4];
 
 
 // RFbee AT commands
@@ -114,8 +117,6 @@ static AT_Command_t atCommands[] PROGMEM =
   { RS_label, 0, 0 , 0 , true, resetConfig }                    // restore default settings
 };
 
-// error codes and labels
-byte errNo;
 
 static char error_0[] PROGMEM="no error";
 static char error_1[] PROGMEM="received invalid RF data size";
@@ -129,9 +130,6 @@ static char *error_codes[] PROGMEM={
   error_2,
   error_3,
 };
-
-
-long baudRateTable[] PROGMEM= {9600,19200,38400,115200};
 
 // operating modes, used by ATMD
 

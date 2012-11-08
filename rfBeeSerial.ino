@@ -23,6 +23,11 @@
 
 #include "rfBeeSerial.h"
 
+byte serialData[BUFFLEN+1]; // 1 extra so we can easily add a /0 when doing a debug print ;-)
+byte serialMode;
+byte errNo = 0;
+long baudRateTable[] PROGMEM= {9600,19200,38400,115200};
+
 //
 byte getNumParamData(int *result, int size){
   DEBUGPRINT()
@@ -265,18 +270,18 @@ void writeSerialData(){
     } 
   else{
     if( of > 1 ) 
-       Serial.print(len); // len is size of data EXCLUDING address bytes !
+       Serial.write(len); // len is size of data EXCLUDING address bytes !
     if( of > 0 ) {
       // write source & destination
-      Serial.print(srcAddress);
-      Serial.print(destAddress);
+      Serial.write(srcAddress);
+      Serial.write(destAddress);
     }  
     // write data 
     Serial.write(rxData,len); 
     // write rssi en lqi
     if( of > 1 ) {
-      Serial.print(rssi);
-      Serial.print(lqi);
+      Serial.write(rssi);
+      Serial.write(lqi);
     } 
   }
 }
@@ -388,12 +393,12 @@ int setRFBeeMode(){
 
 // put the rfbee into sleep
 int setSleepMode(){
-   DEBUGPRINT("going to sleep");
+  DEBUGPRINT("going to sleep")
   CCx.Strobe(CCx_SIDLE);
   CCx.Strobe(CCx_SPWD);
   sleepNow(SLEEP_MODE_IDLE);
   //sleepNow(SLEEP_MODE_PWR_DOWN);
-  DEBUGPRINT("just woke up");
+  DEBUGPRINT("just woke up")
   setRFBeeMode();
   setSerialDataMode();
   return NOTHING;

@@ -17,7 +17,6 @@
 
 
 
-#define FIRMWAREVERSION 11 // 1.1  , version number needs to fit in byte (0~255) to be able to store it into config
 //#define FACTORY_SELFTEST
 //#define DEBUG 
 
@@ -33,6 +32,29 @@
 #endif
 
 #define GDO0 2 // used for polling the RF received data
+
+volatile int sleepCounter;
+
+// handle interrupt
+void ISRVreceiveData(){
+  //DEBUGPRINT()
+  sleepCounter=10;
+}
+
+void rfBeeInit(){
+    DEBUGPRINT()
+    
+    CCx.PowerOnStartUp();
+    setCCxConfig();
+   
+    serialMode=SERIALDATAMODE;
+    sleepCounter=0;
+    
+    attachInterrupt(0, ISRVreceiveData, RISING);  //GD00 is located on pin 2, which results in INT 0
+
+    pinMode(GDO0,INPUT);// used for polling the RF received data
+
+}
 
 
 void setup(){
@@ -74,27 +96,4 @@ void loop(){
     DEBUGPRINT("wake up");
   }
 }
-
-
-void rfBeeInit(){
-    DEBUGPRINT()
-    
-    CCx.PowerOnStartUp();
-    setCCxConfig();
-   
-    serialMode=SERIALDATAMODE;
-    sleepCounter=0;
-    
-    attachInterrupt(0, ISRVreceiveData, RISING);  //GD00 is located on pin 2, which results in INT 0
-
-    pinMode(GDO0,INPUT);// used for polling the RF received data
-
-}
-
-// handle interrupt
-void ISRVreceiveData(){
-  //DEBUGPRINT()
-  sleepCounter=10;
-}
-
 

@@ -20,6 +20,7 @@
 //  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "rfBeeCore.h"
+#include "rfBeeSerial.h"
 
 // send data via RF
 void transmitData(byte *txData,byte len, byte srcAddress, byte destAddress){

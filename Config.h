@@ -2,7 +2,7 @@
 
 //  Copyright (c) 2010 Hans Klunder <hans.klunder (at) bigfoot.com>
 //  Author: Hans Klunder, based on the original Rfbee v1.0 firmware by Seeedstudio
-//  Version: June 18, 2010
+//  Version: Aug 27, 2010
 //
 //  This library is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU Lesser General Public
@@ -24,6 +24,8 @@
 #define Config_h 1
 
 #include "Arduino.h"
+
+#define FIRMWAREVERSION 11 // 1.1  , version number needs to fit in byte (0~255) to be able to store it into config
 
 // config layout
 #define CONFIG_RFBEE_MARKER       0  // Marker

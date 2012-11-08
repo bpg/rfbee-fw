@@ -30,4 +30,10 @@
 #include <avr/sleep.h>
 
 
+void lowPowerOn();
+void sleepNow(byte mode);
+byte txFifoFree();
+void transmitData(byte *txData,byte len, byte srcAddress, byte destAddress);
+int receiveData(byte *rxData, byte *len, byte *srcAddress, byte *destAddress, byte *rssi , byte *lqi);
+
 #endif
